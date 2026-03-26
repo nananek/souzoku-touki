@@ -1,0 +1,51 @@
+{
+  "deceased": {
+    "name": "山田 太郎",
+    "nameSpaced": "山田　太郎",
+    "deathDate": "令和６年１０月１５日",
+    "deathYear": "令和６年",
+    "birthDate": "昭和１３年３月８日",
+    "lastAddress": "東京都多摩市落合１丁目９９番８８号",
+    "lastHonseki": "東京都多摩市落合１丁目９９番８８号"
+  },
+  "heirs": [
+    {
+      "name": "山田 花子",
+      "nameSpaced": "山田　花子",
+      "kana": "やまだ　はなこ",
+      "relation": "妻",
+      "birthDate": "昭和１６年７月２０日",
+      "address": "東京都多摩市落合１丁目９９番８８号",
+      "residentCode": "",
+      "phone": "",
+      "email": "なし"
+    },
+    {
+      "name": "佐藤 美咲",
+      "nameSpaced": "佐藤　美咲",
+      "kana": "さとう　みさき",
+      "relation": "長女",
+      "birthDate": "昭和４０年４月１０日",
+      "address": "東京都八王子市南大沢３丁目９８番７号"
+    },
+    {
+      "name": "田中 由美",
+      "nameSpaced": "田中　由美",
+      "kana": "たなか　ゆみ",
+      "relation": "次女",
+      "birthDate": "昭和４３年８月２３日",
+      "address": "神奈川県川崎市麻生区万福寺６丁目９７番３号",
+      "phone": "０９０−１２３４−５６７８"
+    },
+    {
+      "name": "高橋 明子",
+      "nameSpaced": "高橋　明子",
+      "kana": "たかはし　あきこ",
+      "relation": "三女",
+      "birthDate": "昭和４９年１１月３日",
+      "address": "東京都多摩市落合２丁目９６番１２号"
+    }
+  ],
+  "agreementDate": "令和８年３月１７日",
+  "applicationDate": "令和８年　　月　　日"
+}

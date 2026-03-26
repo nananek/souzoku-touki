@@ -1,0 +1,29 @@
+---
+const { name, address } = Astro.props;
+---
+<div class="signature-block">
+    <p class="address">住所　{address}</p>
+    <div class="name-row">
+        <span>相続人　{name}</span>
+        <div class="seal-mark"></div>
+    </div>
+</div>
+
+<style>
+    .signature-block { 
+        margin-bottom: 20px; 
+        page-break-inside: avoid;
+    }
+    .address { margin: 0 0 6px 0; }
+    .name-row { 
+        display: flex; 
+        align-items: center; 
+    }
+    .seal-mark {
+        margin-left: 40px;
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+</style>

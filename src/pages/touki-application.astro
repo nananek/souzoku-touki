@@ -1,0 +1,287 @@
+---
+import PaperLayout from '../layouts/PaperLayout.astro';
+import commonData from '../data/common.json';
+import data from '../data/touki-application.json';
+---
+
+<PaperLayout title="登記申請書">
+    <div class="no-print" style="position: absolute; top: -30px; left: 0;">
+        <a href="/" style="text-decoration: none; color: #666; font-size: 0.9em;">← 一覧に戻る</a>
+    </div>
+
+    <div class="sticker-space"></div>
+
+    <h1 class="title">登　記　申　請　書</h1>
+
+    <div class="content">
+        <div class="row">
+            <div class="label">登記の目的</div>
+            <div class="value">{data.purpose}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">原　　　因</div>
+            <div class="value">{data.causeDate}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">相　続　人</div>
+            <div class="value">
+                <div class="heir-line">（被相続人　{commonData.deceased.name}）</div>
+                
+                <div class="applicant-section">
+                    <div class="applicant-address">{commonData.heirs[0].address}</div>
+                    <div class="applicant-address">（住民票コード{commonData.heirs[0].residentCode}）</div>
+                    <div class="applicant-name-row">
+                        <span>{commonData.heirs[0].name}</span>
+                        <div class="seal-mark"></div>
+                    </div>
+                    
+                    <table class="contact-table">
+                        <tr>
+                            <td class="col-label">氏名ふりがな</td>
+                            <td class="col-value">{commonData.heirs[0].kana}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">生年月日</td>
+                            <td class="col-value">{commonData.heirs[0].birthDate}</td>
+                        </tr>
+                        <tr>
+                            <td class="col-label">メールアドレス</td>
+                            <td class="col-value">{commonData.heirs[0].email}</td>
+                        </tr>
+                    </table>
+                    
+                    <div class="phone-line">連絡先の電話番号　{commonData.heirs[0].phone}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="label-sm">添付情報</div>
+            <div class="value">
+                {data.attachments.map(item => (
+                    <div>{item}</div>
+                ))}
+            </div>
+        </div>
+
+        <div class="row checkbox-row">
+            <div class="checkbox-box">□</div>
+            <div>登記識別情報の通知を希望しません。</div>
+        </div>
+
+        <div class="date-section">
+            <div class="date-line">令和８年　　月　　日申請　　{data.bureau}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">代　理　人</div>
+            <div class="value">
+                <div class="agent-address">{commonData.heirs[2].address}</div>
+                <div class="agent-name-row">
+                    <span>{commonData.heirs[2].name}</span>
+                    <div class="seal-mark"></div>
+                </div>
+                <div class="phone-line">連絡先の電話番号{commonData.heirs[2].phone}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="content" style="padding-top: 50px;">
+        <div class="row">
+            <div class="label">課 税 価 格</div>
+            <div class="value">{data.taxableValue}</div>
+        </div>
+
+        <div class="row">
+            <div class="label">登録免許税</div>
+            <div class="value">{data.registrationTax}</div>
+        </div>
+
+        <div class="property-section">
+            <div class="property-title">不動産の表示</div>
+            
+            {data.properties.map(prop => (
+                <div class="property-block">
+                    {prop.lines.map(line => (
+                        <div class="property-item">
+                            <div class="p-label">{line.label}</div>
+                            <div class="p-value">{line.value}</div>
+                        </div>
+                    ))}
+                </div>
+            ))}
+        </div>
+
+        <div class="sutein-section">
+            <div class="sutein-marks">
+                <div class="sutein-circle"></div>
+                <div class="sutein-circle"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+    <div class="stamp-sheet-simple">
+        (印紙貼付台紙)
+    </div>
+
+</PaperLayout>
+
+<style>
+    /* 全体の太字設定をリセット */
+    * { font-weight: normal !important; }
+
+    /* シール用余白 50mm */
+    .sticker-space {
+        height: 50mm;
+        margin-bottom: 5px;
+    }
+
+    .title {
+        text-align: center;
+        font-size: 14pt;
+        margin-bottom: 25px;
+        letter-spacing: 0.5em;
+    }
+
+    .content {
+        font-size: 11pt;
+        line-height: 1.4;
+        padding: 0 5mm;
+    }
+
+    .row {
+        display: flex;
+        margin-bottom: 8px;
+        align-items: flex-start;
+    }
+
+    .label {
+        width: 100px;
+        flex-shrink: 0;
+        text-align-last: justify;
+        margin-right: 20px;
+    }
+    .label-sm {
+        width: 100px;
+        flex-shrink: 0;
+        text-align-last: justify;
+        margin-right: 20px;
+    }
+    .value { flex-grow: 1; }
+
+    /* 代理人用スタイル */
+    .agent-address { margin-bottom: 2px; }
+    .agent-name-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+
+    .heir-line { margin-bottom: 2px; }
+    .applicant-section { margin-top: 2px; }
+    .applicant-address { margin-bottom: 2px; }
+    
+    .applicant-name-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+    }
+    .seal-mark {
+        margin-left: 40px;
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+
+    .contact-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 5px;
+        font-size: 11pt;
+    }
+    .contact-table td {
+        border: 1px solid #000;
+        padding: 2px 6px;
+        vertical-align: middle;
+    }
+    .col-label { width: 30%; }
+    .col-value { width: 70%; }
+    
+    .phone-line {
+        /* 電話番号は通常右寄せだが、代理人欄の画像を見ると左揃え（名前の下）のようにも見える */
+        /* ご提示画像に従い、ブロック内で自然に配置します（標準継承）。必要なら text-align: right; を戻してください */
+        /* 画像では「連絡先の電話番号...」が名前の下にインデント無く続いているため、左寄せのままにします */
+        font-size: 10pt;
+    }
+
+    .checkbox-row {
+        margin: 10px 0;
+        align-items: center;
+    }
+    .checkbox-box {
+        font-size: 14pt;
+        margin-right: 8px;
+        line-height: 1;
+    }
+
+    .date-section {
+        margin: 15px 0;
+    }
+
+    .property-section { margin-top: 20px; }
+    .property-title {
+        margin-bottom: 5px;
+    }
+    .property-block { margin-bottom: 15px; }
+    .property-item {
+        display: flex;
+        margin-bottom: 2px;
+    }
+    .p-label {
+        width: 100px;
+        margin-left: 20px;
+        text-align-last: justify;
+        margin-right: 20px;
+    }
+
+    .sutein-section {
+        margin-top: 50px;
+        page-break-inside: avoid;
+    }
+
+    .sutein-marks {
+        display: flex;
+        gap: 30px;
+    }
+
+    .sutein-circle {
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+
+    .page-break {
+        page-break-after: always;
+        height: 0;
+        /* 画面上での区切り線 */
+        margin: 40px 0;
+        border-top: 1px dashed #ccc;
+    }
+    
+    .stamp-sheet-simple {
+        padding-top: 30mm;
+        font-size: 12pt;
+    }
+
+    @media print {
+        .sticker-space { display: block; }
+        .page-break { page-break-after: always; border: none; margin: 0; }
+    }
+</style>

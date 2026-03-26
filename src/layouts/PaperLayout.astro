@@ -1,0 +1,71 @@
+---
+const { title = "文書", orientation = "portrait" } = Astro.props;
+
+// 用紙サイズ等の定義
+const isLandscape = orientation === "landscape";
+const width = isLandscape ? "297mm" : "210mm";
+const height = isLandscape ? "210mm" : "297mm";
+---
+<html lang="ja">
+<head>
+    <meta charset="UTF-8" />
+    <title>{title}</title>
+    <style define:vars={{ width, height }}>
+        :root {
+            --p-width: var(--width);
+            --p-height: var(--height);
+        }
+        body {
+            margin: 0;
+            background: #e0e0e0;
+            font-family: "Hiragino Mincho ProN", "Hiragino Mincho Pro", "Noto Serif JP", "Yu Mincho", "YuMincho", serif;
+            color: #000;
+            font-weight: normal;
+        }
+        /* 用紙設定 */
+        .paper {
+            background: white;
+            width: var(--p-width);
+            min-height: var(--p-height);
+            margin: 40px auto;
+            padding: 20mm; /* 余白 */
+            box-shadow: 0 0 15px rgba(0,0,0,0.2);
+            box-sizing: border-box;
+            position: relative;
+        }
+        
+        @media print {
+            @page {
+                size: A4 portrait; /* デフォルトは縦 */
+                margin: 0;
+            }
+            body {
+                background: none;
+            }
+            .paper {
+                margin: 0;
+                box-shadow: none;
+                width: 100%;
+                min-height: 100%;
+                padding: 20mm; /* 印刷時も余白を保持 */
+            }
+            .no-print {
+                display: none !important;
+            }
+        }
+    </style>
+    {isLandscape && <style>
+        @media print {
+            @page { 
+                size: A4 landscape; 
+                margin: 0;
+            }
+        }
+    </style>}
+</head>
+<body>
+    <div class="paper">
+        <slot />
+    </div>
+</body>
+</html>

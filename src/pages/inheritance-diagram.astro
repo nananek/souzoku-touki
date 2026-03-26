@@ -1,0 +1,273 @@
+---
+import PaperLayout from '../layouts/PaperLayout.astro';
+import commonData from '../data/common.json';
+---
+
+<PaperLayout title="相続関係説明図" orientation="landscape">
+    <div class="no-print" style="position: absolute; top: -30px; left: 0;">
+        <a href="/" style="text-decoration: none; color: #666; font-size: 0.9em;">← 一覧に戻る</a>
+    </div>
+
+    <div class="header-section">
+        <h1 class="doc-title">被相続人 {commonData.deceased.nameSpaced} 相続関係説明図</h1>
+        <div class="header-details">
+            <div class="detail-row">
+                <span class="label">最後の住所</span>
+                <span class="val">{commonData.deceased.lastAddress}</span>
+            </div>
+            <div class="detail-row">
+                <span class="label">最後の本籍</span>
+                <span class="val">{commonData.deceased.lastHonseki}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tree-container">
+        
+        <div class="parents-wrapper">
+            <div class="person-box deceased">
+                <div class="rel">被相続人</div>
+                <div class="name">{commonData.deceased.nameSpaced}</div>
+                <div class="info">
+                    <div>{commonData.deceased.birthDate}生</div>
+                    <div>{commonData.deceased.deathDate}死亡</div>
+                </div>
+            </div>
+
+            <div class="marriage-line">
+                <div class="double-bar"></div>
+                <div class="vertical-line"></div>
+            </div>
+
+            <div class="person-box spouse">
+                <div class="rel">{commonData.heirs[0].relation}</div>
+                <div class="name">{commonData.heirs[0].nameSpaced}　（相続）</div>
+                <div class="info">
+                    <div>{commonData.heirs[0].birthDate}生</div>
+                    <div>住所　{commonData.heirs[0].address}</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="children-wrapper">
+            {commonData.heirs.slice(1).map((child) => (
+                <div class="child-node">
+                    <div class="line-horizontal-left"></div>
+                    <div class="line-horizontal-right"></div>
+                    <div class="line-vertical-top"></div>
+                    
+                    <div class="person-box child">
+                        <div class="rel">{child.relation}</div>
+                        <div class="name">{child.nameSpaced}　（分割）</div>
+                        <div class="info">
+                            <div>{child.birthDate}生</div>
+                            <div>住所　{child.address}</div>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </div>
+
+    </div>
+
+    <div class="return-docs-area">
+        <table class="return-table">
+            <tr>
+                <td class="stamp-cell"></td>
+                <td class="text-cell">
+                    相続を証する書面は還付した
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</PaperLayout>
+
+<style>
+    /* リセット */
+    * { box-sizing: border-box; font-weight: normal !important; }
+
+    /* ヘッダーエリア */
+    .header-section {
+        width: 100%;
+        margin-bottom: 40px;
+        text-align: left;
+    }
+
+    .doc-title {
+        font-size: 14pt;
+        text-underline-offset: 5px;
+        margin: 0 0 15px 0;
+    }
+
+    .header-details {
+        font-size: 11pt;
+        line-height: 1.6;
+        margin-left: 10px;
+    }
+
+    .detail-row { display: flex; }
+    .detail-row .label { width: 120px; }
+
+    /* ツリーコンテナ */
+    .tree-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }
+
+    /* --- 共通：人物ボックス --- */
+    .person-box {
+        width: 280px;
+        height: 160px;
+        background: transparent;
+        padding: 10px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        position: relative;
+        z-index: 2;
+    }
+
+    .rel { font-size: 11pt; margin-bottom: 5px; text-align: left; }
+    .name { font-size: 11pt; text-align: center; margin-bottom: 8px; letter-spacing: 0.1em; }
+    .info { font-size: 11pt; line-height: 1.4; }
+
+    /* --- 1段目：親レイアウト --- */
+    .parents-wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 40px;
+    }
+
+    .marriage-line {
+        width: 60px;
+        height: 160px;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .double-bar {
+        width: 100%;
+        height: 6px;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
+    }
+
+    .vertical-line {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 1px;
+        height: 100px;
+        background: #000;
+        transform: translateX(-50%);
+        z-index: 1;
+    }
+
+    /* --- 2段目：子レイアウト --- */
+    .children-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+    }
+
+    .child-node {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: relative;
+        padding: 0 15px;
+    }
+
+    /* 線画ロジック */
+    .line-vertical-top {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        width: 1px;
+        height: 40px;
+        background: #000;
+        transform: translateX(-50%);
+    }
+
+    .line-horizontal-left {
+        position: absolute;
+        top: -40px;
+        right: 50%;
+        width: calc(50% + 15px);
+        height: 1px;
+        background: #000;
+    }
+
+    .line-horizontal-right {
+        position: absolute;
+        top: -40px;
+        left: 50%;
+        width: calc(50% + 15px);
+        height: 1px;
+        background: #000;
+    }
+
+    .child-node:first-child .line-horizontal-left { display: none; }
+    .child-node:last-child .line-horizontal-right { display: none; }
+
+    .children-wrapper:has(> .child-node:only-child) .line-horizontal-left,
+    .children-wrapper:has(> .child-node:only-child) .line-horizontal-right {
+        display: none;
+    }
+    
+    .children-wrapper:has(> .child-node:only-child) .line-vertical-top {
+        height: 60px;
+        top: -60px;
+    }
+
+    /* --- 右下：原本還付欄（表組み） --- */
+    .return-docs-area {
+        position: absolute;
+        bottom: 5mm;
+        right: 20mm;
+    }
+
+    .return-table {
+        border-collapse: collapse; /* 枠線を結合 */
+        border: 1px solid #000;
+    }
+
+    .return-table td {
+        border: 1px solid #000;
+        vertical-align: middle;
+        text-align: center;
+    }
+
+    /* ハンコ用セル：50px四方に拡大 */
+    .stamp-cell {
+        width: 50px;
+        height: 50px;
+    }
+
+    /* 文言用セル */
+    .text-cell {
+        padding: 0 15px;
+        font-size: 11pt;
+        white-space: nowrap; /* 折り返しなし */
+    }
+
+    @media print {
+        @page {
+            size: A4 landscape;
+            margin: 0;
+        }
+        .no-print { 
+            display: none !important; 
+        }
+        body {
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+    }
+</style>

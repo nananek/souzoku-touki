@@ -1,0 +1,253 @@
+---
+import PaperLayout from '../layouts/PaperLayout.astro';
+import commonData from '../data/common.json';
+import toukiData from '../data/touki-application.json';
+---
+
+<PaperLayout title="委任状">
+    <div class="no-print" style="position: absolute; top: -30px; left: 0;">
+        <a href="/" style="text-decoration: none; color: #666; font-size: 0.8em;">← 一覧に戻る</a>
+    </div>
+
+    <h1 class="title">委　任　状</h1>
+
+    <div class="agent-section">
+        <div class="row">
+            <span class="label">住　所</span>
+            <span class="value">{commonData.heirs[2].address}</span>
+        </div>
+        <div class="row">
+            <span class="label">氏　名</span>
+            <span class="value">{commonData.heirs[2].name}</span>
+        </div>
+    </div>
+
+    <div class="main-text">
+        私は、上記の者を代理人と定め、次の登記申請に関する一切の権限を委任する。
+    </div>
+
+    <div class="ki-mark">記</div>
+
+    <ol class="items registration-items">
+        <li>登記の目的　{toukiData.purpose}</li>
+        <li>原因　{toukiData.causeDate}</li>
+        <li>相続人　（被相続人　{commonData.deceased.name}）<br/>
+            <span style="margin-left: 6.5em;">{commonData.heirs[0].address}</span><br/>
+            <span style="margin-left: 6.5em;">{commonData.heirs[0].name}</span>
+        </li>
+        <li>原本還付請求及び受領に関する一切の件</li>
+        <li>登記識別情報の受領に関する一切の件</li>
+        <li>登記申請の取下げ及び登記に係る登録免許税の還付金の受領並びに再使用証明申出の請求受領に関する一切の件</li>
+        <li>復代理人選任に関する一切の件</li>
+    </ol>
+
+    <div class="date-section">
+        {commonData.applicationDate}
+    </div>
+
+    <div class="principal-section">
+        <div class="row">
+            <span class="label">住　所</span>
+            <span class="value">{commonData.heirs[0].address}</span>
+        </div>
+        <div class="row principal-name-row">
+            <span class="label">氏　名</span>
+            <span class="value">
+                <span class="principal-name">{commonData.heirs[0].name}</span>
+                <div class="seal-mark"></div>
+            </span>
+        </div>
+    </div>
+
+    <div class="page-break"></div>
+
+    <div class="property-section">
+        <div class="property-title">不動産の表示</div>
+        
+        {toukiData.properties.map(prop => (
+            <div class="property-block">
+                {prop.lines.map(line => (
+                    <div class="property-item">
+                        <div class="p-label">{line.label}</div>
+                        <div class="p-value">{line.value}</div>
+                    </div>
+                ))}
+            </div>
+        ))}
+    </div>
+
+    <!-- 捨印エリア -->
+    <div class="sute-in-area">
+        <div class="sute-in-circle"></div>
+    </div>
+
+</PaperLayout>
+
+<style>
+    * {
+        font-weight: normal;
+    }
+
+    /* 捨印エリア */
+    .sute-in-area {
+        margin-top: 50px;
+        text-align: left;
+    }
+
+    .sute-in-circle {
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+
+    /* タイトル */
+    .title {
+        text-align: center;
+        font-size: 14pt;
+        margin-top: 10mm;
+        margin-bottom: 15mm;
+        letter-spacing: 0.5em;
+    }
+
+    /* 行のレイアウト */
+    .row {
+        display: flex;
+        align-items: baseline;
+        margin-bottom: 8px;
+        font-size: 11pt;
+        line-height: 1.5;
+    }
+
+    .label {
+        width: 80px;
+        flex-shrink: 0;
+    }
+
+    .value {
+        flex-grow: 1;
+    }
+
+    .agent-section {
+        margin-bottom: 30px;
+    }
+
+    /* 本文 */
+    .main-text {
+        margin: 20px 0;
+        text-indent: 1em;
+        font-size: 11pt;
+        line-height: 1.8;
+    }
+
+    /* 記 */
+    .ki-mark {
+        text-align: center;
+        font-size: 11pt;
+        margin: 15px 0;
+    }
+
+    /* 箇条書き */
+    ol.items {
+        margin: 0 0 40px 0;
+        padding-left: 50px;
+        font-size: 11pt;
+        line-height: 1.8;
+        list-style-type: none;
+    }
+
+    ol.items.registration-items {
+        margin-bottom: 20px;
+    }
+
+    ol.items li {
+        margin-bottom: 5px;
+    }
+
+    ol.items li::before {
+        content: "1. ";
+        margin-right: 0.5em;
+    }
+
+    /* 日付 */
+    .date-section {
+        font-size: 11pt;
+        margin-bottom: 30px;
+    }
+
+    /* 委任者（本人）エリア */
+    .principal-section {
+        margin-left: 40px;
+        margin-bottom: 50px;
+    }
+
+    .principal-name-row {
+        margin-top: 15px;
+        align-items: center;
+    }
+
+    .principal-name-row .value {
+        display: flex;
+        align-items: center;
+    }
+
+    .principal-name {
+        font-size: 11pt;
+        letter-spacing: 0.1em;
+    }
+
+    .seal-mark {
+        margin-left: 50px;
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+
+    /* 不動産の表示 */
+    .property-section {
+        padding-top: 50px;
+        font-size: 11pt;
+        line-height: 1.4;
+    }
+
+    .property-title {
+        margin-bottom: 10px;
+    }
+
+    .property-block {
+        margin-bottom: 15px;
+    }
+
+    .property-item {
+        display: flex;
+        margin-bottom: 2px;
+    }
+
+    .p-label {
+        width: 100px;
+        margin-left: 20px;
+        text-align-last: justify;
+        margin-right: 20px;
+    }
+
+    .p-value {
+        flex: 1;
+    }
+
+    .page-break {
+        page-break-after: always;
+        height: 0;
+        margin: 40px 0;
+        border-top: 1px dashed #ccc;
+    }
+
+    @media print {
+        .page-break {
+            display: block;
+            page-break-after: always;
+            border: none;
+            margin: 0;
+        }
+    }
+</style>

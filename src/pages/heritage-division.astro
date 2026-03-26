@@ -1,0 +1,87 @@
+---
+import PaperLayout from '../layouts/PaperLayout.astro';
+import SignatureBlock from '../components/SignatureBlock.astro';
+import commonData from '../data/common.json';
+import data from '../data/heritage-division.json';
+---
+
+<PaperLayout title="遺産分割協議書">
+    <div class="no-print" style="position: absolute; top: -30px; left: 0;">
+        <a href="/" style="text-decoration: none; color: #666; font-size: 0.8em;">← 一覧に戻る</a>
+    </div>
+
+    <h1 class="title">遺　産　分　割　協　議　書</h1>
+
+    <div style="margin-left: 1em; margin-bottom: 20px;">
+        <p>被 相 続 人</p>
+        <p style="margin-left: 1em;">{commonData.deceased.name}（{commonData.deceased.deathDate}　死亡）</p>
+        <p style="margin-left: 1em;">最後の本籍　{commonData.deceased.lastHonseki}</p>
+        <p style="margin-left: 1em;">最後の住所　{commonData.deceased.lastAddress}</p>
+    </div>
+
+    <p>
+        上記被相続人の死亡により開始した相続の相続人である　
+        {commonData.heirs.map((h, i) => (
+            <><span style="white-space: nowrap;">{h.relation}　{h.name}</span>{i < commonData.heirs.length - 1 ? "、　" : ""}</>
+        ))}
+        　は、その相続財産について、次の通り分割を協議し、決定した。
+    </p>
+
+    <div style="margin: 20px 0 20px 1em;">
+        <p>１.　 被相続人の有する一切の財産は、妻　{data.mainInheritor}　が相続する。</p>
+    </div>
+
+    <p>以上証明のため、相続人は本書を作成し、署名押印する。</p>
+
+    <p style="margin-top: 20px; margin-bottom: 20px;">
+        {commonData.agreementDate}
+    </p>
+
+    <div>
+        {commonData.heirs.map(heir => (
+            <SignatureBlock name={heir.name} address={heir.address} />
+        ))}
+    </div>
+
+    <div class="sutein-section">
+        <div class="sutein-marks">
+            {commonData.heirs.map(() => (
+                <div class="sutein-circle"></div>
+            ))}
+        </div>
+    </div>
+
+</PaperLayout>
+
+<style>
+    * {
+        font-weight: normal !important;
+    }
+    p {
+        line-height: 1.5;
+        margin: 0.4em 0;
+        font-size: 11pt;
+    }
+    h1 {
+        font-size: 11pt;
+    }
+    .title {
+        font-size: 14pt;
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    .sutein-section {
+        margin-top: 30px;
+        page-break-inside: avoid;
+    }
+    .sutein-marks {
+        display: flex;
+        gap: 30px;
+    }
+    .sutein-circle {
+        width: 60px;
+        height: 60px;
+        border: 2px dashed #ccc;
+        border-radius: 50%;
+    }
+</style>
