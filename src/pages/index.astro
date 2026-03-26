@@ -1,4 +1,5 @@
 ---
+const base = import.meta.env.BASE_URL;
 ---
 <html lang="ja">
 <head>
@@ -18,10 +19,10 @@
     <div class="container">
         <h1>保存文書一覧</h1>
         <ul>
-            <li><a href="/heritage-division">・ 遺産分割協議書</a></li>
-            <li><a href="/touki-application">・ 登記申請書（所有権移転）</a></li>
-            <li><a href="/inheritance-diagram">・ 相続関係説明図</a></li>
-            <li><a href="/power-of-attorney">・ 委任状（所有権移転）</a></li>
+            <li><a href={`${base}heritage-division`}>・ 遺産分割協議書</a></li>
+            <li><a href={`${base}touki-application`}>・ 登記申請書（所有権移転）</a></li>
+            <li><a href={`${base}inheritance-diagram`}>・ 相続関係説明図</a></li>
+            <li><a href={`${base}power-of-attorney`}>・ 委任状（所有権移転）</a></li>
         </ul>
     </div>
 </body>
